@@ -18,17 +18,24 @@ public class UserService {
     }
 
     //Требование А.с.1
-    public void changeInfo(User user, String firstName, String seconName, String thirdname, Date birthDate, String email, String phoneNumber, User.Role role){ // TODO: 04.07.2021 Подавать данные, ?считываемые с html форм?
+    public void changeInfo(User user, String firstName, String secondName, String thirdName, Date birthDate, String email, String phoneNumber, User.Role role){ // TODO: 04.07.2021 Подавать данные, ?считываемые с html форм?
         user.setFirstName(firstName);
-        user.setSecondName(seconName);
-        user.setThirdName(thirdname);
+        user.setSecondName(secondName);
+        user.setThirdName(thirdName);
         user.setBirthDate(birthDate);
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
         user.setRole(role);
     }
 
+    //Requires password confirmation
+    public void changeRole(){
 
+    }
 
+    public User changeAge(User user, int age){
+        user.setAge(age);
+        return userRepository.save(user);
+    }
 
 }

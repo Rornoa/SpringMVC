@@ -27,6 +27,7 @@ public class User{
     private String secondName;
     private String thirdName;
     private Date birthDate;
+    private int age;
     private Role role;
     private String address;
     private String phoneNumber;
@@ -34,6 +35,17 @@ public class User{
 
     public User(String firstName) {
         this.firstName=firstName;
+    }
+
+    public User(String firstName, String secondName) {
+        this.firstName=firstName;
+        this.secondName=secondName;
+    }
+
+    public User(String firstName, String secondName, String thirdName) {
+        this.firstName=firstName;
+        this.secondName=secondName;
+        this.thirdName=thirdName;
     }
 
     public enum Role{

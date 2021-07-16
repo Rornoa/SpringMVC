@@ -18,16 +18,18 @@ public class GuestController {
     @Autowired
     GuestRepository guestRepository;
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Guest>> getAllGuests(){
-        return ResponseEntity.ok(guestRepository.findAll());
-    }
-
     @PostMapping("/create")
     public ResponseEntity<String> createGuest(@RequestParam String firstName,@RequestParam String secondName){
         Guest guest = new Guest(firstName,secondName);
         guest = guestRepository.save(guest);
         return ResponseEntity.ok("Guest "+firstName+" "+secondName+" successfully created");
+    }
+
+    @RequestMapping(value="all",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Guest> getAllGuests(){
+        List<Guest> guests = guestRepository.findAll();
+        return guests;
     }
 
 }

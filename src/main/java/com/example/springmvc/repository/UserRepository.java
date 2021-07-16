@@ -2,6 +2,7 @@ package com.example.springmvc.repository;
 
 import com.example.springmvc.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -15,7 +16,7 @@ import java.util.List;
  * 2) Наследуемся от одного из интерфейсов Spring Data
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>{
+public interface UserRepository extends CrudRepository<User, Long> {
     List<User> findUsersByFirstNameContains(String firstName);
 
     List<User> findUsersBySecondNameContains(String secondName);
@@ -31,6 +32,10 @@ public interface UserRepository extends JpaRepository<User, Long>{
     List<User> findUsersByPhoneNumberContains(String phoneNumber);
 
     List<User> findUsersByEmailContaining(String email);
+
+    List<User> findUsersByAgeGreaterThan(int age);
+
+    List<User> findUsersByAgeIsLessThan(int age);
 
     List<User> findAll();
 
