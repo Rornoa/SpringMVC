@@ -1,20 +1,12 @@
 package com.example.springmvc.repository;
 
 import com.example.springmvc.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 
-/***
- * @Репозиторий - это несколько интерфейсов которые используют JPA Entity для взаимодействия с репозиторией
- * JPA - java-спецификация определяющая доступ, сохранение и управления данными между Java-объектами (Entity классами) и реляционной базой данных.
- *
- * 1) Помечаем наш интерфейс аннотацией @Repository.
- * 2) Наследуемся от одного из интерфейсов Spring Data
- */
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
     List<User> findUsersByFirstNameContains(String firstName);

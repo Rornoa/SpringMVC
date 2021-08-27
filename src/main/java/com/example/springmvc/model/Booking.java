@@ -1,83 +1,58 @@
 package com.example.springmvc.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table
+@Table(name="bookings")
 public class Booking {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) long id;
+    private String firstName;
+    private String secondName;
+    private String thirdName;
 
-	@Id
-	@SequenceGenerator(name = "booking_sequence",
-		sequenceName = "booking_sequence",
-		allocationSize = 1)
-	@GeneratedValue(
-		strategy = GenerationType.SEQUENCE,
-		generator = "booking_sequence"
-	)
-	@Getter
-	@Setter
-	private Long id;
+    private String phoneNumber;
+    private String email;
 
-	private String clientName;
+    private final SimpleDateFormat formatterForArrival = new SimpleDateFormat("dd/MM/yyyy");
+    private Date arrival;
+    private String strArrival;
 
-	@Transient
-	@Setter
-	private Integer age;
+    private final SimpleDateFormat formatterForDepartment = new SimpleDateFormat("dd/MM/yyyy");
+    private Date department;
+    private String strDepartment;
 
-	@Getter
-	@Setter
-	private LocalDate dateOfBirth;
+    Long wholePeriodPrice;
 
-	private String email;
+    int peopleAmount;
 
-	public Booking() {
-	}
+    String additionalInfo;
 
-	public Booking(Long id, String clientName, LocalDate dateOfBirth, String email) {
-		this.id = id;
-		this.clientName = clientName;
-		this.dateOfBirth = dateOfBirth;
-		this.email = email;
-	}
+    public Booking(String firstName, String secondName, String thirdName, String phoneNumber, String email, String arrival, String department, Long wholePeriodPrice, int peopleAmount, String additionalInfo) throws ParseException {
+        this.firstName=firstName;
+        this.secondName=secondName;
+        this.thirdName=thirdName;
+        this.phoneNumber=phoneNumber;
+        this.email=email;
 
-	// DataBase will generate the id
-	public Booking(String clientName, LocalDate dateOfBirth, String email) {
-		this.clientName = clientName;
-		this.dateOfBirth = dateOfBirth;
-		this.email = email;
-	}
+        this.arrival =formatterForArrival.parse(arrival);
+        this.strArrival=this.arrival.toString();
 
-	public String getEmail() {
-		return email;
-	}
+        this.department =formatterForDepartment.parse(department);
+        this.strDepartment=this.department.toString();
 
-	public String getClientName() {
-		return clientName;
-	}
-
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Integer getAge() {
-		return Period.between(dateOfBirth, LocalDate.now()).getYears();
-	}
-
-	@Override
-	public String toString() {
-		return "Booking{" +
-			"id=" + id +
-			", clientName='" + clientName + '\'' +
-			", age=" + age +
-			", dateOfBirth=" + dateOfBirth +
-			", email='" + email + '\'' +
-			'}';
-	}
+        this.wholePeriodPrice=wholePeriodPrice;
+        this.peopleAmount=peopleAmount;
+        this.additionalInfo=additionalInfo;
+    }
 }

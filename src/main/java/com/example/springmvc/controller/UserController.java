@@ -1,5 +1,6 @@
 package com.example.springmvc.controller;
 
+import com.example.springmvc.exception_handlers.UserNotFoundException;
 import com.example.springmvc.model.User;
 import com.example.springmvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import com.example.springmvc.repository.UserRepository;
 
 import java.util.List;
 
-@RequestMapping(value = "/api/user")
+@RequestMapping(value = "/api/users")
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class UserController {
@@ -24,32 +25,48 @@ public class UserController {
     @Autowired
     private RoomRepository roomRepository;
 
-    @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestParam String secondName, String firstName){
-        User user = new User(secondName,firstName);
-        user = userRepository.save(user);
-        return ResponseEntity.ok("User "+secondName+" "+firstName+" successfully created!");
-    }
 
-    @PostMapping("/create ")
-    public ResponseEntity<String> createWithThird(@RequestParam String secondName,String firstName, String thirdName){
+    @PostMapping
+    public ResponseEntity<String> createUser(@RequestParam String secondName,@RequestParam String firstName, String thirdName){
         User user = new User(secondName,firstName,thirdName);
         user = userRepository.save(user);
         return ResponseEntity.ok("User "+secondName+" "+firstName+" "+thirdName+" successfully created!");
     }
 
+    // TODO: 25.08.2021 почитать рекомендации REST
     // TODO: 16.07.2021 Requires password confirmation before execute delete command.
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteUser(@RequestParam long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable long id){
         userRepository.deleteById(id);      
         return ResponseEntity.ok("User "+id+" was deleted!");
     }
 
-    @RequestMapping(value="all",method = RequestMethod.GET)
+    @GetMapping()
     @ResponseBody
     public List<User> getAllUsers(){
         List<User> users = userRepository.findAll();
         return users;
+    }
+
+    // TODO: 27.08.2021 Works but not properly. 
+    @PutMapping("{id}")
+    public User update(@RequestBody User newUser, @PathVariable long id){
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setFirstName(newUser.getFirstName());
+                    user.setSecondName(newUser.getSecondName());
+                    return userRepository.save(user);
+                })
+                .orElseGet(()->{
+                   newUser.setId(id);
+                   return userRepository.save(newUser);
+                });
+    }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public User getUser(@PathVariable long id){
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
     //May be helpful with calculating room price and mailing

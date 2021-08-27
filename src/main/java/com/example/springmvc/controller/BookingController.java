@@ -1,43 +1,52 @@
 package com.example.springmvc.controller;
 
 import com.example.springmvc.model.Booking;
-import com.example.springmvc.service.BookingService;
+import com.example.springmvc.repository.BookingRepository;
+import com.example.springmvc.service.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+@RequestMapping(value = "/api/booking")
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
-@RequestMapping(path = "api/v1/booking")
 public class BookingController {
 
-	private final BookingService bookingService;
+    @Autowired
+    private BookingRepository bookingRepository;
 
-	@Autowired
-	public BookingController(BookingService bookingService) {
-		this.bookingService = bookingService;
-	}
+    @Autowired
+    private IBookingService bookingService;
 
-	@GetMapping
-	public List<Booking> getBookings() {
-		return bookingService.getBookings();
-	}
+    @PostMapping("/createBooking")
+    public ResponseEntity<String> createBooking(@RequestParam String firstName, String secondName, String thirdName, String phoneNumber, String email, String arrivalDate, String departmentDate, Long wholePeriodPrice, int peopleAmount,String additionalInfo){
+        try {
+            Booking booking = new Booking(firstName, secondName, thirdName, phoneNumber, email, arrivalDate, departmentDate, wholePeriodPrice, peopleAmount, additionalInfo);
+            booking = bookingRepository.save(booking);
+        } catch(ParseException e){
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok("success");
+    }
 
-	@PostMapping
-	public void registerNewBooking(@RequestBody Booking booking) {
-		bookingService.addNewBooking(booking);
-	}
+    @RequestMapping(value="getAll",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Booking> getAllBookings(){
+        List<Booking> bookings = bookingRepository.findAll();
+        return bookings;
+    }
 
-	@DeleteMapping(path = "{bookingId}")
-	public void deleteStudent(@PathVariable("bookingId") Long bookingId) {
-		bookingService.deleteBooking(bookingId);
-	}
-
-	@PutMapping(path = "{bookingId}")
-	public void updateBookingDetails(@PathVariable("bookingId") Long bookingId,
-									 @RequestParam(required = false, name = "cool") String name,
-									 @RequestParam(required = false) String email) {
-		bookingService.updateBooking(bookingId, name, email);
-	}
+    @RequestMapping(value="getGreaterArrival", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Booking> getArrivalGreaterThan(@RequestParam Date arrival){
+        List<Booking>  bookings = bookingRepository.findAllByArrivalGreaterThan(arrival);
+        return bookings;
+    }
 
 }

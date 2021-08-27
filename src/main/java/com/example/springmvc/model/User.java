@@ -53,4 +53,10 @@ public class User{
         MANAGER,
         RECEPTIONIST
     }
+
+    /*@Override
+    public int hashCode(){
+        return Object.hash(this.id, this.firstName, this.secondName, this.thirdName, this.birthDate, this.age, this.role, this.address, this.phoneNumber, this.email);
+    }*/
+
 }
