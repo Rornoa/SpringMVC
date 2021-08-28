@@ -8,10 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.springmvc.repository.RoomRepository;
 import com.example.springmvc.repository.UserRepository;
+import java.util.Date;
 
 import java.util.List;
+import java.util.Optional;
 
-@RequestMapping(value = "/api/users")
+@RequestMapping(value = "/hotel-it/users")
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class UserController {
@@ -41,7 +43,7 @@ public class UserController {
         return ResponseEntity.ok("User "+id+" was deleted!");
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     @ResponseBody
     public List<User> getAllUsers(){
         List<User> users = userRepository.findAll();
@@ -50,16 +52,19 @@ public class UserController {
 
     // TODO: 27.08.2021 Works but not properly. 
     @PutMapping("{id}")
-    public User update(@RequestBody User newUser, @PathVariable long id){
-        return userRepository.findById(id)
+    public void update(String firstName, String secondName, String thirdName, int age, String email, Date birthDate, User.Role role,String address, @PathVariable long id){
+                userRepository.findById(id)
                 .map(user -> {
-                    user.setFirstName(newUser.getFirstName());
-                    user.setSecondName(newUser.getSecondName());
-                    return userRepository.save(user);
-                })
-                .orElseGet(()->{
-                   newUser.setId(id);
-                   return userRepository.save(newUser);
+                    user.setFirstName(firstName);
+                    user.setSecondName(secondName);
+                    user.setThirdName(thirdName);
+                    user.setAge(age);
+                    user.setEmail(email);
+                    user.setBirthDate(birthDate);
+                    user.setRole(role);
+                    user.setAddress(address);
+                    userRepository.save(user);
+                    return null;
                 });
     }
 

@@ -1,16 +1,14 @@
 package com.example.springmvc.controller;
 
 import com.example.springmvc.model.Guest;
-import com.example.springmvc.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.springmvc.repository.GuestRepository;
-import com.example.springmvc.repository.UserRepository;
 
 import java.util.List;
 
-@RequestMapping(value = "/api/guest")
+@RequestMapping(value = "/hotelit/guest")
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class GuestController {

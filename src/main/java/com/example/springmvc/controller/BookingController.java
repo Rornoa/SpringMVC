@@ -4,16 +4,14 @@ import com.example.springmvc.model.Booking;
 import com.example.springmvc.repository.BookingRepository;
 import com.example.springmvc.service.IBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-@RequestMapping(value = "/api/booking")
+@RequestMapping(value = "/hotelit/booking")
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class BookingController {
