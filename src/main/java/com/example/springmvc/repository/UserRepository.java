@@ -1,14 +1,16 @@
 package com.example.springmvc.repository;
 
 import com.example.springmvc.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long>{
     List<User> findUsersByFirstNameContains(String firstName);
 
     List<User> findUsersBySecondNameContains(String secondName);

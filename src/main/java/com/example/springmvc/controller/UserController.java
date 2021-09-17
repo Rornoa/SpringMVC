@@ -4,17 +4,18 @@ import com.example.springmvc.exception_handlers.UserNotFoundException;
 import com.example.springmvc.model.User;
 import com.example.springmvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.springmvc.repository.RoomRepository;
 import com.example.springmvc.repository.UserRepository;
-import java.util.Date;
 
-import java.util.List;
-import java.util.Optional;
+import javax.persistence.criteria.Order;
+import java.util.*;
 
 @RequestMapping(value = "/hotel-it/users")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "*")
+
 @RestController
 public class UserController {
 
@@ -29,10 +30,10 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestParam String secondName,@RequestParam String firstName, String thirdName){
-        User user = new User(secondName,firstName,thirdName);
+    public ResponseEntity<String> createUser(@RequestParam String firstName,@RequestParam String secondName, String thirdName,Date birthDate,@RequestParam(name = "age",value = "age",required = false) Integer age,User.Role role,String address,String phoneNumber, String email){
+        User user = new User(firstName,secondName,thirdName,birthDate,age,role,address,phoneNumber,email);
         user = userRepository.save(user);
-        return ResponseEntity.ok("User "+secondName+" "+firstName+" "+thirdName+" successfully created!");
+        return ResponseEntity.ok("User "+firstName+" "+secondName+" "+thirdName+" successfully created!");
     }
 
     // TODO: 25.08.2021 почитать рекомендации REST
@@ -45,6 +46,20 @@ public class UserController {
 
     @GetMapping("/all")
     @ResponseBody
+    public List<User> getAllUsers(@RequestParam String... sort){
+        List<Sort.Order> orders = new ArrayList<>();
+        for ( String s: sort) {
+            if(s.charAt(0)=='d')
+                orders.add(new Sort.Order(Sort.Direction.DESC,s.substring(1)));
+            if(s.charAt(0)=='a')
+                orders.add(new Sort.Order(Sort.Direction.ASC,s.substring(1)));
+        }
+        return userRepository.findAll(Sort.by(orders));
+    }
+    //Sort.by(Sort.Direction.valueOf(order),sort)
+
+    @GetMapping
+    @ResponseBody
     public List<User> getAllUsers(){
         List<User> users = userRepository.findAll();
         return users;
@@ -52,7 +67,7 @@ public class UserController {
 
     // TODO: 27.08.2021 Works but not properly. 
     @PutMapping("{id}")
-    public void update(String firstName, String secondName, String thirdName, int age, String email, Date birthDate, User.Role role,String address, @PathVariable long id){
+    public void update(String firstName, String secondName, String thirdName, Integer age, String email, Date birthDate, User.Role role,String address, @PathVariable long id,String phoneNumber){
                 userRepository.findById(id)
                 .map(user -> {
                     user.setFirstName(firstName);
@@ -63,6 +78,7 @@ public class UserController {
                     user.setBirthDate(birthDate);
                     user.setRole(role);
                     user.setAddress(address);
+                    user.setPhoneNumber(phoneNumber);
                     userRepository.save(user);
                     return null;
                 });
@@ -88,7 +104,4 @@ public class UserController {
         List<User> users = userRepository.findUsersByAgeIsLessThan(age);
         return users;
     }
-
-
-
 }
