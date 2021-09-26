@@ -4,6 +4,8 @@ import com.example.springmvc.exception_handlers.UserNotFoundException;
 import com.example.springmvc.model.User;
 import com.example.springmvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,7 @@ import com.example.springmvc.repository.RoomRepository;
 import com.example.springmvc.repository.UserRepository;
 
 import javax.persistence.criteria.Order;
+import java.io.Serializable;
 import java.util.*;
 
 @RequestMapping(value = "/hotel-it/users")
@@ -57,12 +60,15 @@ public class UserController {
         return userRepository.findAll(Sort.by(orders));
     }
     //Sort.by(Sort.Direction.valueOf(order),sort)
-
     @GetMapping
     @ResponseBody
-    public List<User> getAllUsers(){
-        List<User> users = userRepository.findAll();
-        return users;
+    public List<User> getAllUsers(@RequestParam String sort, @RequestParam boolean isAsc, @RequestParam int limit, @RequestParam int page){
+        List<User> users;
+        if (sort!=null)
+            users = userRepository.findAll(PageRequest.of(page, limit, Sort.by(isAsc ? Sort.Direction.ASC : Sort.Direction.DESC, sort))).getContent();
+        else
+            users = userRepository.findAll(PageRequest.of(page, limit)).getContent();
+        return  users;
     }
 
     // TODO: 27.08.2021 Works but not properly. 
@@ -83,6 +89,12 @@ public class UserController {
                     return null;
                 });
     }
+
+    /*@GetMapping()
+    @ResponseBody
+    public User getSortedUsersAsc(){
+        return null;
+    }*/
 
     @GetMapping("/{id}")
     @ResponseBody

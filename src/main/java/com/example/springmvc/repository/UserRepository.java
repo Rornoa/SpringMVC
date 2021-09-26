@@ -27,6 +27,8 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     List<User> findUsersByEmailContaining(String email);
 
+    List<User> findByOrderByFirstNameAsc();
+
     List<User> findUsersByAgeGreaterThan(int age);
 
     List<User> findUsersByAgeIsLessThan(int age);
