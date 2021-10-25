@@ -18,13 +18,13 @@ public class UserService {
     }
 
     //Требование А.с.1
-    public void changeInfo(User user, String firstName, String secondName, String thirdName, Date birthDate, String email, String phoneNumber, User.Role role){ // TODO: 04.07.2021 Подавать данные, ?считываемые с html форм?
-        user.setFirstName(firstName);
-        user.setSecondName(secondName);
-        user.setThirdName(thirdName);
-        user.setBirthDate(birthDate);
+    public void changeInfo(User user, String name, String lastName, String middleName, Date birthDate, String email, String phone, User.Role role){
+        user.setName(name);
+        user.setLastName(lastName);
+        user.setMiddleName(middleName);
+        user.setDate(birthDate);
         user.setEmail(email);
-        user.setPhoneNumber(phoneNumber);
+        user.setPhone(phone);
         user.setRole(role);
     }
 

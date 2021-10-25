@@ -11,23 +11,23 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
-    List<User> findUsersByFirstNameContains(String firstName);
+    List<User> findUsersByNameContains(String name);
 
-    List<User> findUsersBySecondNameContains(String secondName);
+    List<User> findUsersByLastNameContains(String lastName);
 
-    List<User> findUsersByThirdNameContains(String thirdName);
+    List<User> findUsersByMiddleNameContains(String middleName);
 
-    List<User> findUsersByBirthDate(Date birthDate);
+    List<User> findUsersByDate(Date date);
 
     List<User> findUsersByRole(User.Role role);
 
     List<User> findUsersByAddressContains(String address);
 
-    List<User> findUsersByPhoneNumberContains(String phoneNumber);
+    List<User> findUsersByPhoneContains(String phone);
 
     List<User> findUsersByEmailContaining(String email);
 
-    List<User> findByOrderByFirstNameAsc();
+    List<User> findByOrderByNameAsc();
 
     List<User> findUsersByAgeGreaterThan(int age);
 

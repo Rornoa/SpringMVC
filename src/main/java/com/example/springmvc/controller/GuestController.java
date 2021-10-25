@@ -17,10 +17,10 @@ public class GuestController {
     GuestRepository guestRepository;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createGuest(@RequestParam String firstName,@RequestParam String secondName){
-        Guest guest = new Guest(firstName,secondName);
+    public ResponseEntity<String> createGuest(@RequestParam String name,@RequestParam String lastName){
+        Guest guest = new Guest(name,lastName);
         guest = guestRepository.save(guest);
-        return ResponseEntity.ok("Guest "+firstName+" "+secondName+" successfully created");
+        return ResponseEntity.ok("Guest "+name+" "+lastName+" successfully created");
     }
 
     @RequestMapping(value="all",method = RequestMethod.GET)

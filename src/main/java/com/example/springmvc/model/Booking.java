@@ -17,11 +17,11 @@ import java.util.Date;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) long id;
-    private String firstName;
-    private String secondName;
-    private String thirdName;
+    private String name;
+    private String lastName;
+    private String middleName;
 
-    private String phoneNumber;
+    private String phone;
     private String email;
 
     private final SimpleDateFormat formatterForArrival = new SimpleDateFormat("dd/MM/yyyy");
@@ -38,11 +38,11 @@ public class Booking {
 
     String additionalInfo;
 
-    public Booking(String firstName, String secondName, String thirdName, String phoneNumber, String email, String arrival, String department, Long wholePeriodPrice, int peopleAmount, String additionalInfo) throws ParseException {
-        this.firstName=firstName;
-        this.secondName=secondName;
-        this.thirdName=thirdName;
-        this.phoneNumber=phoneNumber;
+    public Booking(String name, String lastName, String middleName, String phone, String email, String arrival, String department, Long wholePeriodPrice, int peopleAmount, String additionalInfo) throws ParseException {
+        this.name=name;
+        this.lastName=lastName;
+        this.middleName=middleName;
+        this.phone=phone;
         this.email=email;
 
         this.arrival =formatterForArrival.parse(arrival);

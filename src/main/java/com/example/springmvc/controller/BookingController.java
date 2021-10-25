@@ -23,9 +23,9 @@ public class BookingController {
     private IBookingService bookingService;
 
     @PostMapping("/createBooking")
-    public ResponseEntity<String> createBooking(@RequestParam String firstName, String secondName, String thirdName, String phoneNumber, String email, String arrivalDate, String departmentDate, Long wholePeriodPrice, int peopleAmount,String additionalInfo){
+    public ResponseEntity<String> createBooking(@RequestParam String name, String lastName, String middleName, String phone, String email, String arrivalDate, String departmentDate, Long wholePeriodPrice, int peopleAmount,String additionalInfo){
         try {
-            Booking booking = new Booking(firstName, secondName, thirdName, phoneNumber, email, arrivalDate, departmentDate, wholePeriodPrice, peopleAmount, additionalInfo);
+            Booking booking = new Booking(name, lastName, middleName, phone, email, arrivalDate, departmentDate, wholePeriodPrice, peopleAmount, additionalInfo);
             booking = bookingRepository.save(booking);
         } catch(ParseException e){
             e.printStackTrace();

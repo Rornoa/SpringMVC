@@ -5,15 +5,12 @@ import com.example.springmvc.model.User;
 import com.example.springmvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.springmvc.repository.RoomRepository;
 import com.example.springmvc.repository.UserRepository;
 
-import javax.persistence.criteria.Order;
-import java.io.Serializable;
 import java.util.*;
 
 @RequestMapping(value = "/hotel-it/users")
@@ -33,14 +30,12 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestParam String firstName,@RequestParam String secondName, String thirdName,Date birthDate,@RequestParam(name = "age",value = "age",required = false) Integer age,User.Role role,String address,String phoneNumber, String email){
-        User user = new User(firstName,secondName,thirdName,birthDate,age,role,address,phoneNumber,email);
-        user = userRepository.save(user);
-        return ResponseEntity.ok("User "+firstName+" "+secondName+" "+thirdName+" successfully created!");
+    public ResponseEntity<String> createUser(@RequestBody User reqUser){
+      //  User user = new User(name, lastname,middleName,date,age,role,address,phone,email);
+        reqUser = userRepository.save(reqUser);
+        return ResponseEntity.ok("User "+ reqUser.getName() +" "+ reqUser.getLastName() +" "+reqUser.getMiddleName()+" successfully created!");
     }
 
-    // TODO: 25.08.2021 почитать рекомендации REST
-    // TODO: 16.07.2021 Requires password confirmation before execute delete command.
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable long id){
         userRepository.deleteById(id);      
@@ -73,18 +68,18 @@ public class UserController {
 
     // TODO: 27.08.2021 Works but not properly. 
     @PutMapping("{id}")
-    public void update(String firstName, String secondName, String thirdName, Integer age, String email, Date birthDate, User.Role role,String address, @PathVariable long id,String phoneNumber){
+    public void update(String name, String lastName, String middleName, Integer age, String email, Date birthDate, User.Role role,String address, @PathVariable long id,String phone){
                 userRepository.findById(id)
                 .map(user -> {
-                    user.setFirstName(firstName);
-                    user.setSecondName(secondName);
-                    user.setThirdName(thirdName);
+                    user.setName(name);
+                    user.setLastName(lastName);
+                    user.setMiddleName(middleName);
                     user.setAge(age);
                     user.setEmail(email);
-                    user.setBirthDate(birthDate);
+                    user.setDate(birthDate);
                     user.setRole(role);
                     user.setAddress(address);
-                    user.setPhoneNumber(phoneNumber);
+                    user.setPhone(phone);
                     userRepository.save(user);
                     return null;
                 });

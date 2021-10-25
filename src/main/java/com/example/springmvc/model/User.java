@@ -24,17 +24,17 @@ public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) long id; // still set automatically
 
-    @Column(name="firstName",nullable = false)
-    private String firstName;
+    @Column(name="name",nullable = false)
+    private String name;
 
-    @Column(name="secondName",nullable = false)
-    private String secondName;
+    @Column(name="last_name",nullable = false)
+    private String lastName;
 
-    @Column(name ="thirdName", nullable = true)
-    private String thirdName;
+    @Column(name ="middle_name", nullable = true)
+    private String middleName;
 
-    @Column(name = "birthDate",nullable = true)
-    private Date birthDate;
+    @Column(name = "birth_date",nullable = true)
+    private Date date;
 
     @Column(name ="age", nullable = true)
     private Integer age;
@@ -45,45 +45,45 @@ public class User{
     @Column(name = "address",nullable = true)
     private String address;
 
-    @Column(name = "phoneNumber",nullable = true)
-    private String phoneNumber;
+    @Column(name = "phone",nullable = true)
+    private String phone;
 
     @Column(name = "email",nullable = true)
     private String email;
 
-    public User(String firstName) {
-        this.firstName=firstName;
+    public User(String name) {
+        this.name = name;
     }
 
-    public User(String firstName, String secondName) {
-        this.firstName=firstName;
-        this.secondName=secondName;
+    public User(String name, String lastName) {
+        this.name = name;
+        this.lastName = lastName;
     }
 
-    public User(String firstName, String secondName, String thirdName) {
-        this.firstName=firstName;
-        this.secondName=secondName;
-        this.thirdName=thirdName;
+    public User(String name, String lastName, String middleName) {
+        this.name = name;
+        this.lastName = lastName;
+        this.middleName = middleName;
     }
 
-    public User(String firstName, String secondName, String thirdName, Date birthDate, Integer age, Role role, String address, String phoneNumber, String email) {
-        this.firstName=firstName;
-        this.secondName=secondName;
-        this.thirdName=thirdName;
-        this.birthDate=birthDate;
+    public User(String name, String lastName, String middleName, Date date, Integer age, Role role, String address, String phone, String email) {
+        this.name = name;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.date = date;
         this.age=age;
         this.role=role;
         this.address=address;
-        this.phoneNumber=phoneNumber;
+        this.phone = phone;
         this.email=email;
     }
 
-    public void setSecondName(String secondName){
-        this.secondName=secondName;
+    public void setLastName(String lastName){
+        this.lastName =lastName;
     }
 
-    public void setFirstName(String firstName){
-        this.firstName=firstName;
+    public void setName(String name){
+        this.name =name;
     }
 
     public enum Role{
