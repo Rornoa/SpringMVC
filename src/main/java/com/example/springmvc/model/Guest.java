@@ -34,7 +34,6 @@ public class Guest {
     private String secondName;
     private String thirdName;
     private Date birthDate;
-    private int age;
     private String address;
     private String phoneNumber;
     private String email;
@@ -60,6 +59,5 @@ public class Guest {
         REGISTERED,
         ENTERED,
         LEFT,
-
     }
 }

@@ -17,6 +17,5 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findAllByDepartmentGreaterThan(String department);
     List<Booking> findAllByDepartmentLessThan(String department);
 
-    List<Booking> findAll();
 
 }

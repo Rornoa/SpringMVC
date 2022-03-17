@@ -35,7 +35,6 @@ public interface GuestRepository extends JpaRepository<Guest, Long>{
     List<Guest> findGuestsByEmailContaining(String email);
 
     //?
-    List<Guest> findAll();
 
 
 }

@@ -1,13 +1,13 @@
 package com.example.springmvc.repository;
 
+import com.example.springmvc.model.Role;
 import com.example.springmvc.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
@@ -19,8 +19,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     List<User> findUsersByDate(Date date);
 
-    List<User> findUsersByRole(User.Role role);
-
     List<User> findUsersByAddressContains(String address);
 
     List<User> findUsersByPhoneContains(String phone);
@@ -29,10 +27,11 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
     List<User> findByOrderByNameAsc();
 
-    List<User> findUsersByAgeGreaterThan(int age);
+    User findByEmail(String email);
 
-    List<User> findUsersByAgeIsLessThan(int age);
+    Optional<User> findByUsername(String username);
 
-    List<User> findAll();
+    Boolean existsByUsername(String username);
 
+    Boolean existsByEmail(String email);
 }
